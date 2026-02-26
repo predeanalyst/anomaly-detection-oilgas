@@ -436,9 +436,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Your Name**
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
-- Portfolio: [yourportfolio.com](https://yourportfolio.com)
+- LinkedIn: [LinkedIn Link](https://github.com/predeanalyst)
+- Email: preciousiyekeoretin@gmail.com
+- Portfolio: [Portfolio Link](https://precious-iyekeoretin-sap-data-science-portfolio-382663220945.us-west1.run.app/)
 
 ## 🙏 Acknowledgments
 
@@ -450,7 +450,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support, please:
 - Open an issue in this repository
-- Email: support@yourcompany.com
+- Email: preciousiyekeoretin@gmail.com
 - Documentation: [https://docs.yourproject.com](https://docs.yourproject.com)
 
 ## 🗺️ Roadmap
