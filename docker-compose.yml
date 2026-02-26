@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  # Training service
+  trainer:
+    build:
+      context: .
+      target: production
+    container_name: anomaly-trainer
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+      - ./configs:/app/configs
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+    command: >
+      python src/train.py
+      --data /app/data/raw/sensor_data.csv
+      --config /app/configs/config.yaml
+      --output /app/models/lstm_autoencoder.pth
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: "no"
+
+  # Dashboard service
+  dashboard:
+    build:
+      context: .
+      target: production
+    container_name: anomaly-dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./configs:/app/configs
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: streamlit run src/dashboard/app.py
+    depends_on:
+      - trainer
+    restart: unless-stopped
+
+  # API service
+  api:
+    build:
+      context: .
+      target: production
+    container_name: anomaly-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./configs:/app/configs
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: >
+      uvicorn src.api.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+    restart: unless-stopped
+
+  # MongoDB (optional - for logging)
+  mongodb:
+    image: mongo:6.0
+    container_name: anomaly-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    restart: unless-stopped
+
+  # Jupyter notebook (development)
+  jupyter:
+    build:
+      context: .
+      target: development
+    container_name: anomaly-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/app/notebooks
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./src:/app/src
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    command: >
+      jupyter lab
+      --ip=0.0.0.0
+      --allow-root
+      --no-browser
+      --NotebookApp.token='anomaly'
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
+    driver: local
