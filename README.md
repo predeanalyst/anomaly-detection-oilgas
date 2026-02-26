@@ -83,7 +83,7 @@ An advanced LSTM-based autoencoder system for unsupervised detection of sensor d
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/anomaly-detection-system.git
+git clone https://github.com/predeanalyst/anomaly-detection-oilgas.git
 cd anomaly-detection-system
 
 # Create virtual environment
