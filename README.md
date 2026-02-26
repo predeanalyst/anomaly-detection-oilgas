@@ -414,10 +414,8 @@ python scripts/deploy_sagemaker.py \
 ## 📚 Documentation
 
 - [Architecture Overview](docs/architecture.md)
-- [API Reference](docs/api.md)
+- [SAP Integration Guide & API Reference](docs/api.md)
 - [Deployment Guide](docs/deployment.md)
-- [SAP Integration Guide](docs/sap_integration.md)
-- [Troubleshooting](docs/troubleshooting.md)
 
 ## 🤝 Contributing
 
